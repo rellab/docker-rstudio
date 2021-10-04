@@ -1,0 +1,8 @@
+ARG TAG=latest
+
+From rocker/rstudio:${TAG}
+
+ENV PASSWORD rsudio
+
+VOLUME /home/rstudio/work
+
