@@ -8,6 +8,7 @@ RUN apt-get update &&\
     apt-get clean &&\
     rm -rf /var/lib/apt/lists/*
 
+ENV RSTUDIO_USER       rstudio
 ENV RSTUDIO_PASSWORD   passwd
 ENV RSTUDIO_GRANT_SUDO nopass
 ENV RSTUDIO_PORT       8787
