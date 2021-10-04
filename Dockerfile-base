@@ -1,8 +1,19 @@
 ARG TAG=latest
-
 From rocker/rstudio:${TAG}
 
-ENV PASSWORD rsudio
+ENV TZ=Asia/Tokyo
+ENV RSTUDIO_USER       rstudio
+ENV RSTUDIO_PASSWORD   no
+ENV RSTUDIO_GROUP      rstudio
+ENV RSTUDIO_HOME       /home/rstudio
+ENV RSTUDIO_UID        1000
+ENV RSTUDIO_GID        1000
+ENV RSTUDIO_GRANT_SUDO nopass
+ENV RSTUDIO_PORT       8787
 
-VOLUME /home/rstudio/work
+COPY entrypoint.sh /entrypoint.sh
 
+EXPOSE $RSTUDIO_PORT
+VOLUME /home
+
+CMD ["/entrypoint.sh"]
