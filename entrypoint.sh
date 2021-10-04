@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export PASSWORD="$RSTUDIO_PASSWORD"
+echo "rstudio:$RSTUDIO_PASSWORD" | chpasswd
 
 if [ $RSTUDIO_GRANT_SUDO = "yes" ]; then
   echo "rstudio ALL=(ALL) ALL" >> /etc/sudoers.d/rstudio
