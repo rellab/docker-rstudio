@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "rstudio:$RSTUDIO_PASSWORD" | chpasswd
+echo "$RSTUDIO_USER:$RSTUDIO_PASSWORD" | chpasswd
 
 if [ $RSTUDIO_GRANT_SUDO = "yes" ]; then
   echo "rstudio ALL=(ALL) ALL" >> /etc/sudoers.d/rstudio
