@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# create user
-
 groupadd -f -g $RSTUDIO_GID $RSTUDIO_GROUP || exit 1
 if [ $RSTUDIO_PASSWORD = "no" ]; then
   useradd -d $RSTUDIO_HOME -u $RSTUDIO_UID -g $RSTUDIO_GID -s /bin/bash $RSTUDIO_USER || exit 1

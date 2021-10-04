@@ -8,12 +8,12 @@ RUN apt-get update &&\
     apt-get clean &&\
     rm -rf /var/lib/apt/lists/*
 
-ENV RSTUDIO_USER       rsuser
-ENV RSTUDIO_PASSWORD   no
-ENV RSTUDIO_GROUP      rstudio
-ENV RSTUDIO_HOME       /home/rsuser
+ENV RSTUDIO_USER       reluser
+ENV RSTUDIO_PASSWORD   relpasswd
+ENV RSTUDIO_GROUP      relgroup
+ENV RSTUDIO_HOME       /home/reluser
 ENV RSTUDIO_UID        1001
-ENV RSTUDIO_GID        1000
+ENV RSTUDIO_GID        1001
 ENV RSTUDIO_GRANT_SUDO nopass
 ENV RSTUDIO_PORT       8787
 
