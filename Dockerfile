@@ -4,7 +4,6 @@ FROM rocker/rstudio:${TAG}
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     sudo \
-    whois \
     libcurl4-openssl-dev \
     libssl-dev \
     zlib1g-dev \
@@ -14,15 +13,23 @@ RUN apt-get update && \
     psmisc \
     libapparmor1 \
     libxml2-dev \
+    libgit2-dev \
     libgmp3-dev \
     libmpfr-dev \
+    libfontconfig1-dev \
+    libharfbuzz-dev \
+    libfribidi-dev \
     libclang-dev \
+    libfreetype6-dev \
+    libpng-dev \
+    libtiff5-dev \
+    libjpeg-dev \
     fonts-noto-cjk && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # tidyverse インストール
-RUN R -e "install.packages('tidyverse', repos='https://cloud.r-project.org/')"
+RUN R -e "install.packages(c('tidyverse', 'devtools'), repos='https://cloud.r-project.org/')"
 
 # 環境変数
 ENV RSTUDIO_USER=rstudio \
