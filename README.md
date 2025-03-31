@@ -78,7 +78,7 @@ docker run -d \
 - libssl-dev
 - zlib1g-dev
 - libssh2-1-dev
-- libopenblas-base
+- libopenblas0
 - libopenblas-dev
 - psmisc
 - libapparmor1
@@ -134,16 +134,98 @@ docker run -d \
 
 ---
 
+## 🔧 RStudio Server 簡易操作スクリプト
+
+ローカル開発用途で便利な **RStudio Server コンテナ操作スクリプト** を以下に示します。
+
+**任意のディレクトリに `control.sh` という名前で保存し、実行権限を付与してください。**
+
+```bash
+#!/bin/bash
+
+PNAME=$(basename "$PWD")
+CNAME="rstudio-$PNAME"
+PORT=$((8700 + $(echo "$PNAME" | cksum | awk '{print $1 % 100}')))
+
+case "$1" in
+  start)
+    mkdir -p ./work
+    echo "Starting $CNAME on port $PORT"
+    docker run -d \
+      -p "$PORT:8787" \
+      -e RSTUDIO_PASSWORD="$PNAME" \
+      -v "$PWD/work":/home/rstudio \
+      --name "$CNAME" \
+      ghcr.io/rellab/docker-rstudio:latest
+    echo "Access: http://localhost:$PORT"
+    ;;
+  stop)
+    echo "Stopping $CNAME"
+    docker stop "$CNAME"
+    ;;
+  remove)
+    echo "Removing $CNAME"
+    docker rm "$CNAME"
+    ;;
+  restart)
+    echo "Restarting $CNAME"
+    docker stop "$CNAME"
+    docker rm "$CNAME"
+    mkdir -p ./work
+    docker run -d \
+      -p "$PORT:8787" \
+      -e RSTUDIO_PASSWORD="$PNAME" \
+      -v "$PWD/work":/home/rstudio \
+      --name "$CNAME" \
+      ghcr.io/rellab/docker-rstudio:latest
+    echo "Restarted $CNAME on port $PORT"
+    ;;
+  status)
+    docker ps -a -f name="^/${CNAME}$"
+    ;;
+  list)
+    echo "RStudio containers:"
+    docker ps -a --filter "name=rstudio-" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|remove|restart|status|list}"
+    ;;
+esac
+```
+
+### 使用方法
+
+```bash
+chmod +x control.sh
+./control.sh start   # コンテナ起動
+./control.sh stop    # コンテナ停止
+./control.sh remove  # コンテナ削除
+./control.sh restart # コンテナ再起動
+./control.sh status  # コンテナの状態確認
+./control.sh list    # rstudio- から始まる全コンテナ一覧
+```
+
+**コンテナ名・ポートは現在のディレクトリ名から自動生成** されます。
+例: `myproject` というディレクトリで実行すると
+
+- コンテナ名 → `rstudio-myproject`
+- ポート → `8700〜8799` の中で自動計算
+
+パスワードも **ディレクトリ名と同じ** に設定されます。
+
+---
+
 ## 📄 ライセンス
 
 MIT License または rocker/rstudio のライセンスに従ってご利用ください。
 
 ---
 
-## 📝 今後の拡張 (案)
+## 📝 拡張
+
+- [SSL対応](SSL.md)
+
+## 今後の拡張
 
 - 複数ユーザ対応
-- SSL対応
-
-必要に応じてご相談ください。
 
