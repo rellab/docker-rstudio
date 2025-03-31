@@ -1,7 +1,7 @@
 # RStudio Server Docker Environment
 
 このリポジトリは、**ローカルまたはクラウド環境で簡単に RStudio Server を動かすための Docker イメージ** を提供します。 
-**amd64 / arm64 (Apple Silicon) 対応** のマルチアーキテクチャビルドが可能で、Rの代表的パッケージ **tidyverse** をプリインストールしています。
+**amd64 / arm64 (Apple Silicon) 対応** のマルチアーキテクチャビルドが可能で、Rの代表的パッケージ **tidyverse** と **日本語フォント** をプリインストールしています。
 
 このイメージは **GitHub Container Registry (GHCR)** にプッシュすることを前提としています。
 
@@ -11,7 +11,7 @@
 
 | ファイル名        | 説明                                                        |
 |-------------------|-------------------------------------------------------------|
-| Dockerfile        | RStudio Server イメージ定義。tidyverseおよびビルド依存ライブラリを含む |
+| Dockerfile        | RStudio Server イメージ定義。tidyverseおよびビルド依存ライブラリ、日本語フォントを含む |
 | entrypoint.sh     | 起動時にパスワード設定・sudo権限付与などの初期設定を行うスクリプト |
 | Makefile          | **GHCR用のマルチアーキテクチャビルド**定義 |
 
@@ -70,7 +70,9 @@ docker run -d \
 
 ### 4. 開発用パッケージ・ライブラリ
 
-本イメージには、以下のシステムライブラリがインストール済みです。
+本イメージには、以下のシステムライブラリとフォントがインストール済みです。
+
+#### 開発用ライブラリ
 
 - libcurl4-openssl-dev
 - libssl-dev
@@ -85,7 +87,12 @@ docker run -d \
 - libmpfr-dev
 - libclang-dev
 
-これにより、**tidyverseを含む多くのRパッケージがそのまま利用可能**です。
+#### 日本語フォント
+
+- fonts-noto-cjk
+
+これにより、**tidyverseを含む多くのRパッケージがそのまま利用可能**で、
+**ggplot2, rmarkdown, Shiny などでの日本語表示もサポート**されています。
 
 ### 5. クリーンアップ
 
@@ -135,7 +142,6 @@ MIT License または rocker/rstudio のライセンスに従ってご利用く�
 
 ## 📝 今後の拡張 (案)
 
-- 日本語フォントの追加
 - 複数ユーザ対応
 - SSL対応
 
