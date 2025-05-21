@@ -132,6 +132,34 @@ docker run -d \
 
 ホスト側では `/work` にデータを置きつつ、コンテナ内では `/home/rstudio` として扱われます。
 
+## Docker-compose
+
+```
+services:
+  ssh:
+    image: ghcr.io/rellab/docker-ssh-nogpu:latest
+    environment:
+      - SSH_USER=youruser
+      - SSH_PUBLIC_KEY=ssh-rsa AAAA...
+    ports:
+      - "0:22"
+    networks:
+      - internal
+
+  rstudio:
+    image: ghcr.io/rellab/docker-rstudio:latest
+    environment:
+      - RSTUDIO_PASSWORD=rstudio
+      - RSTUDIO_BIND=0.0.0.0
+    volumes:
+      - ./work:/home/rstudio
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge
+```
 ---
 
 ## 🔧 RStudio Server 簡易操作スクリプト

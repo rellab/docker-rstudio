@@ -36,6 +36,7 @@ ENV RSTUDIO_USER=rstudio \
     RSTUDIO_PASSWORD=passwd \
     RSTUDIO_GRANT_SUDO=nopass \
     RSTUDIO_PORT=8787 \
+    RSTUDIO_BIND=127.0.0.1 \
     TZ=Asia/Tokyo
 
 # エントリポイント

@@ -10,4 +10,4 @@ if [ -n "$RSTUDIO_GRANT_SUDO" ]; then
   fi
 fi
 
-exec /usr/lib/rstudio-server/bin/rserver --server-daemonize=0 --www-port "$RSTUDIO_PORT"
+exec /usr/lib/rstudio-server/bin/rserver --server-daemonize=0 --www-port "$RSTUDIO_PORT" --www-address=${RSTUDIO_BIND}
